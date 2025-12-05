@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Dami9\OneDrive\Documenti\GitHub\1945-Dam\src\test_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Dami9\OneDrive\Documenti\GitHub\1945-Dam\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{DE622E4A-20D5-3DEF-9C28-35C249B78EFE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
