@@ -26,7 +26,7 @@
 #define CLOVE_SUITE_NAME GameTests
 
 
-
+//BAISC TEST: different values initialized
 CLOVE_TEST(PlayerInit_DefaultValues) {
     Player p;
     PlayerInit(&p);
@@ -35,24 +35,18 @@ CLOVE_TEST(PlayerInit_DefaultValues) {
     CLOVE_FLOAT_EQ(220.0f, p.speed);
 }
 
-
-// Se usi Raylib nei test, includi raylib e inizializza un contesto minimo.
-// Per ora testiamo solo parti che NON chiamano funzioni raylib, oppure
-// lo facciamo in modo indiretto.
-
-
 // =========================================================
 //PLAYER TESTS
-
+//different values initialized
 CLOVE_TEST(PlayerInit_valuesPlayer2) {
     Player p;
     PlayerInit(&p);
 
-    // size dal tuo codice (65x65)
+    // size from code init (65x65)
     CLOVE_INT_EQ(65, (int)p.size.x);
     CLOVE_INT_EQ(65, (int)p.size.y);
 
-    // dentro la play area (non testiamo valore esatto, solo il range)
+    // inside play area (just range check)
     CLOVE_IS_TRUE(p.position.x >= 0);
     CLOVE_IS_TRUE(p.position.y >= 0);
     CLOVE_IS_TRUE(p.position.x + p.size.x <= SCREEN_WIDTH);
@@ -76,11 +70,11 @@ CLOVE_TEST(PlayerUpdate_InvincibilityExpiresAndUnstun) {
     p.isStunned = 1;
 
     float dt = 0.5f;
-    PlayerUpdate(&p, dt);      // t = 0.5 ancora invincibile
+    PlayerUpdate(&p, dt);      // t = 0.5 still invincible
     CLOVE_FLOAT_EQ(0.5f, p.invincibleTime);
     CLOVE_INT_EQ(1, p.isStunned);
 
-    PlayerUpdate(&p, dt);      // t = 1.0 finita invincibilità, stun rimosso
+    PlayerUpdate(&p, dt);      // t = 1.0 inv. and stun end
     CLOVE_FLOAT_EQ(0.0f, p.invincibleTime);
     CLOVE_INT_EQ(0, p.isStunned);
 }
@@ -106,7 +100,7 @@ CLOVE_TEST(BulletManager_Init_AllInFreeList) {
 
     CLOVE_INT_EQ(MAX_BULLETS, count);
 }
-/*
+//deques the bullet from the free list
 CLOVE_TEST(BulletManager_SpawnPlayer_DequeuesFromFreeList) {
     BulletManager mgr;
     BulletManagerInit(&mgr);
@@ -137,7 +131,8 @@ CLOVE_TEST(BulletManager_SpawnPlayer_DequeuesFromFreeList) {
     // direction Normalized (0,-1)
     CLOVE_FLOAT_EQ(0.0f, mgr.activeList->velocity.x);
     CLOVE_FLOAT_EQ(-1.0f, mgr.activeList->velocity.y);
-}*/
+}
+
 // Bullet out of screen (have to be removed)
 CLOVE_TEST(BulletManager_Update_RemovesOutOfBounds) {
     BulletManager mgr;
