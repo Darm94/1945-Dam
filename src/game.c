@@ -104,7 +104,7 @@ void GameDraw(const Game *game)
             float tileH = (float)gWater.height;
 
             //FROM WEB BLOCK: ========================================================================
-            // Vertical scrolling start point (scroll)
+            // Vertical scrolling start point (scroll using tiles)
             //waterScroll -- = go the water screen go down
             float offsetY = fmodf(game->waterScroll, tileH);
             if (offsetY < 0) offsetY += tileH;

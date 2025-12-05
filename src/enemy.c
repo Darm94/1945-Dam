@@ -254,6 +254,7 @@ void EnemyManagerDraw(const EnemyManager *mgr)
         float frameW = (float)sheet.width / frameCount;
         float frameH = (float)sheet.height;
 
+        // Phase 1: here calculacte the rect posizion and size calculation on the play area that i need for draw in the fuction
         Rectangle src = {
             frameW * e->currentFrame, // 0, W, 2W
             0.0f,
@@ -261,6 +262,7 @@ void EnemyManagerDraw(const EnemyManager *mgr)
             frameH
         };
 
+        // Phase 2: here calculate the frame to obtain from sprite sheet with width/3 (3 frames)
         Rectangle dest = {
             e->position.x,
             e->position.y,
@@ -269,18 +271,18 @@ void EnemyManagerDraw(const EnemyManager *mgr)
         };
 
         // Calculate velocity angle
-        // atan2f(y, x) return angle from x axis , in radiants
+        // here we use fuction atan2f(y, x) return angle from x axis , in radiants
         float angleDeg = atan2f(e->velocity.y, e->velocity.x) * 180.0f / PI;
 
         // basically the sprite is drawn from down to up
-        angleDeg += -90.0f;   // o -90.0f this set the base rotatio from up to donw
+        angleDeg += -90.0f;   // o -90.0f this set the base rotation from up to donw
 
-        // origine at center of destination rectangle
+        // origine at center of destination rectangle (for the rotation)
         Vector2 origin = {
             e->size.x / 2.0f,
             e->size.y / 2.0f
         };
-
+        // Phase3 : Using the Draw fuction to Draw the player , with rotation
         DrawTexturePro(
             sheet,
             src,

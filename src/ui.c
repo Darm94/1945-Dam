@@ -32,7 +32,7 @@ void UI_Draw(const UI *ui, const Game *game)
     // DEBUG to try the exact position
     //DrawRectangleLinesEx(ui->hudRightRect, 2, RED);
 
-    // THere was to way to obtain this image: 1)use the cutted png image and put it on Resources.c or
+    // THere was many way to obtain this image: 1)use the cutted png image and put it on Resources.c or
     //2)cut it from the original atlas.In this case i had no problem with the background and i wanted to 
     //try this different way to obtain textures and sprites so i used the way for this image (2).
     Rectangle hudSrc = {

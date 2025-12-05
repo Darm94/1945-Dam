@@ -112,7 +112,7 @@ void PlayerDraw(const Player *player)
         }
     }
 
-    //  1) rect posizion and size calculation on the play area
+    // Phase 1: here calculacte the rect posizion and size calculation on the play area that i need for draw in the fuction
     Rectangle dest = {
         player->position.x,
         player->position.y,
@@ -120,7 +120,7 @@ void PlayerDraw(const Player *player)
         player->size.y
     };
 
-    // 2) calculate the frame to obtain from sprite sheet with width/3 (3 frames)
+    // Phase 2: here calculate the frame to obtain from sprite sheet with width/3 (3 frames)
     int frameCount = 3;
     float frameWidth  = (float)gPlayerSheet.width / frameCount;
     float frameHeight = (float)gPlayerSheet.height;
@@ -133,12 +133,12 @@ void PlayerDraw(const Player *player)
     };
 
 
-    // 3)Draw the player , no offsets and 0 rotation
+    // Phase3 : Using the Draw fuction to Draw the player , no offsets and 0 rotation
     DrawTexturePro(
         gPlayerSheet, //global sprite sheet from resources.h
-        src,
-        dest,
-        (Vector2){0,0},
+        src,//cutted rectangle from sprite sheet
+        dest,//destination rectangle in play are
+        (Vector2){0,0}, //no rotation or colochanges
         0.0f,
         WHITE
     );
