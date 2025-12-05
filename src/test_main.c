@@ -13,7 +13,6 @@
 
 // =========================================================
 // my headers (depends on raylib)
-// =========================================================
 #include "player.h"
 #include "config.h"
 #include "bullet.h"
@@ -26,7 +25,8 @@
 #define CLOVE_SUITE_NAME GameTests
 
 
-//BAISC TEST: different values initialized
+// =========================================================
+//BASIC TEST: different values initialized
 CLOVE_TEST(PlayerInit_DefaultValues) {
     Player p;
     PlayerInit(&p);
@@ -182,7 +182,7 @@ CLOVE_TEST(EnemyManager_Update_SpawnsEnemiesOverTime) {
 }
 
 //TODO: to verify it better 
-/*
+//values after "wave init"
 CLOVE_TEST(EnemyManager_Init_DefaultWaveParams) {
     EnemyManager mgr;
     EnemyManagerInit(&mgr);
@@ -202,7 +202,6 @@ CLOVE_TEST(EnemyManager_Init_DefaultWaveParams) {
     CLOVE_IS_TRUE(mgr.currentWaveType >= 0);
     CLOVE_IS_TRUE(mgr.currentWaveType < ENEMY_TYPE_COUNT);
 }
-*/
 
 //MAIN CLOVE RUNNER
 CLOVE_RUNNER();
