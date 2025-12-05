@@ -123,7 +123,7 @@ CLOVE_TEST(BulletManager_SpawnPlayer_DequeuesFromFreeList) {
     CLOVE_INT_EQ(freeBefore - 1, freeAfter);
     // one in the activeList
     CLOVE_NOT_NULL(mgr.activeList);
-    CLOVE_TRUE(mgr.activeList->active);
+    CLOVE_IS_TRUE(mgr.activeList->active);
     CLOVE_INT_EQ(BULLET_OWNER_PLAYER, mgr.activeList->owner);
     CLOVE_FLOAT_EQ(400.0f, mgr.activeList->speed);
     CLOVE_FLOAT_EQ(34.0f, mgr.activeList->damage);

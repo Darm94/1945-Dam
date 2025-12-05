@@ -22,7 +22,7 @@ static Enemy* EnemyManagerGetFree(EnemyManager *mgr)
     return NULL;
 }
 
-//PRIVATE : Spawn ONE enemy
+//PRIVATE : Spawn ONE enemy //Not used for now
 static void EnemySpawnOne(EnemyManager *mgr)
 {
     Enemy *e = EnemyManagerGetFree(mgr);
@@ -31,12 +31,11 @@ static void EnemySpawnOne(EnemyManager *mgr)
     // Random Enemy type[0..ENEMY_TYPE_COUNT-1]
     EnemyType type = (EnemyType)(rand() % ENEMY_TYPE_COUNT);
 
+    //Setting texture
     Texture2D sheet = gEnemySheet[type];
-    int frameCount = 3;
-
+    int frameCount = ENEMY_FRAME_COUNT;
     float frameW = (float)sheet.width / frameCount;
     float frameH = (float)sheet.height;
-
     e->active = 1;
     e->type   = type;
 
@@ -51,17 +50,18 @@ static void EnemySpawnOne(EnemyManager *mgr)
     e->position.x = x;
     e->position.y = -e->size.y;  // just a little upper the window screen
 
-    e->speed = 190.0f; // all the enemies on this speed
-//e->speed = 80.0f + game->score * 0.05f;   // aumenta col tempo
+    e->speed = ENEMY_BASIC_SPEED; // all the enemies on this speed
+    //e->speed = ENEMY_BASIC_SPEED + game->score * 0.05f;   // aumenta con lo score
 
-    // Animation
+    // Animation init
     e->currentFrame = 0;
-    e->frameTime    = 0.1f;
+    e->frameTime    = ENEMY_FRAME_TIME;
     e->frameTimer   = 0.0f;
 
     //  Shooting: base interval + random component
-    e->shootInterval = 0.5f + ((float)rand() / RAND_MAX) * 1.5f;  // tra 1.0 e 2.5 secondi
-    e->shootCooldown = e->shootInterval * 0.3f;                   // un piccolo delay iniziale
+    e->shootInterval = ENEMY_SHOOT_MIN_INTERVAL +  // tra ENEMY_SHOOT_MIN_INTERVAL e ENEMY_SHOOT_RANDOM_RANGE seconds
+                        ((float)rand() / RAND_MAX) * ENEMY_SHOOT_RANDOM_RANGE;
+    e->shootCooldown = e->shootInterval * ENEMY_SHOOT_INITIAL_RATIO;                   // little delay 
     // TODO:
     //new bullet patterns and speeds(?)
 }
@@ -78,27 +78,19 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
     }
     if (!e) return; // no free slot
 
-
-     // Random Enemy type[0..ENEMY_TYPE_COUNT-1]
-    EnemyType type = (EnemyType)(rand() % ENEMY_TYPE_COUNT);
-    e->type   = type;
-
-
     e->active = 1;
-
     // use the same type for the current wave
     e->type = mgr->currentWaveType;
 
-    // original size from the enemy Sprite Sheet
+    // Set size from the enemy Sprite Sheet
     Texture2D sheet = gEnemySheet[e->type];
-    int frameCount = 3;
+    int frameCount = ENEMY_FRAME_COUNT;
     float frameW = (float)sheet.width / frameCount;
     float frameH = (float)sheet.height;
 
-    // init size and position (before settings below)
+    // init size ,position and velocity (before settings below)
     float w = 40.0f;
     float h = 40.0f;
-
     float x = 0.0f;
     float y = 0.0f;
     Vector2 vel = {0.0f, 1.0f}; // default: down
@@ -106,9 +98,9 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
     switch (pattern) {
         case ENEMY_PATTERN_LEFT_DIAG_RIGHT:
             // start outsite from left
-            x = -w - RandomFloat(10.0f, 40.0f);
+            x = -w - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MIN + 30.0f);
             // start a little outsite the upper part of the screen
-            y = -h - RandomFloat(10.0f, 80.0f);
+            y = -h - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MAX);
             // going diagonal from left-up to right-down
             vel.x = RandomFloat(0.4f, 0.7f);
             vel.y = RandomFloat(0.7f, 1.0f);
@@ -116,8 +108,8 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
 
         case ENEMY_PATTERN_RIGHT_DIAG_LEFT:
             // start outsite from right
-            x = SCREEN_WIDTH + RandomFloat(10.0f, 40.0f);
-            y = -h - RandomFloat(10.0f, 80.0f);
+            x = SCREEN_WIDTH + RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MIN + 30.0f);
+            y = -h - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MAX);
             // going diagonal from right-up to left-down
             vel.x = RandomFloat(-0.7f, -0.4f);
             vel.y = RandomFloat(0.7f, 1.0f);
@@ -127,7 +119,7 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
         default:
             // more or les from up-center to down-center
             x = SCREEN_WIDTH / 2.0f + RandomFloat(-60.0f, 60.0f);
-            y = -h - RandomFloat(10.0f, 80.0f);
+            y = -h - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MAX);
             vel.x = RandomFloat(-0.2f, 0.2f);
             vel.y = 1.0f;
             break;
@@ -135,7 +127,7 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
 
     e->position = (Vector2){ x, y };
     e->size     = (Vector2){ w, h };
-    e->speed    = 170.0f;
+    e->speed    = ENEMY_PATTERN_SPEED;//same for all types and patterns
     //TODO check
     // Normalize direction
     float len = sqrtf(vel.x*vel.x + vel.y*vel.y);
@@ -145,48 +137,38 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
     }
     e->velocity = vel;
 
-    // animation
+    // animation init
     e->currentFrame = 0;
-    e->frameTime    = 0.1f;
+    e->frameTime    = ENEMY_FRAME_TIME;
     e->frameTimer   = 0.0f;
 
     //Shooting: base interval + random component
-    e->shootInterval = 1.0f + RandomFloat(0.0f, 1.5f);
-    e->shootCooldown = e->shootInterval * 0.5f;
+    e->shootInterval = ENEMY_SHOOT_MIN_INTERVAL +
+                       RandomFloat(0.0f, ENEMY_SHOOT_RANDOM_RANGE);
+    e->shootCooldown = e->shootInterval * ENEMY_SHOOT_INITIAL_RATIO;
 }
 
 
 void EnemyManagerInit(EnemyManager *mgr)
 {
-    //old
-    /*
-    for (int i = 0; i < MAX_ENEMIES; i++) {
-        mgr->enemies[i].active = 0;
-    }
-    mgr->spawnTimer   = RandomFloat(0.18f, 2.0f);
-    
-    mgr->spawnInterval = 1.1f;   // uno ogni 1.5 secondi (regola tu)
-    */
    for (int i = 0; i < MAX_ENEMIES; i++) {
         Enemy *e = &mgr->enemies[i];
         e->active = 0;
         e->velocity = (Vector2){0, 1};
     }
 
-    mgr->enemiesPerWave      = 7;     // 5 planes per wave
-    mgr->delayBetweenEnemies = 0.35f; // 0.35s between one enemy spawn and the next one
-    mgr->delayBetweenWaves   = 2.0f;  // 2 secondi from a wave to the next one
+    mgr->enemiesPerWave      = ENEMIES_PER_WAVE;     // n planes per wave
+    mgr->delayBetweenEnemies = ENEMY_DELAY_BETWEEN_SPAWN; // 0.35s between one enemy spawn and the next one
+    mgr->delayBetweenWaves   = ENEMY_DELAY_BETWEEN_WAVES;  // seconds from a wave to the next one
     mgr->spawnedInCurrentWave = 0;
     mgr->currentPattern       = ENEMY_PATTERN_LEFT_DIAG_RIGHT;
-    mgr->spawnTimer           = 1.0f;   // first wave init : after one second
-    // TODO:
-    //pre -defined patterns(?)
+    mgr->spawnTimer           = ENEMY_FIRST_SPAWN_DELAY;   // first wave init : after one second
     mgr->currentWaveType = (EnemyType)(rand() % ENEMY_TYPE_COUNT); // 👈 tipo iniziale
 }
 
 void EnemyManagerUpdate(EnemyManager *mgr, float dt)
 {
-   // 1) movement update + death out of screen
+   //  Movement update + death out of screen
     for (int i = 0; i < MAX_ENEMIES; i++) {
         Enemy *e = &mgr->enemies[i];
         if (!e->active) continue;
@@ -197,8 +179,8 @@ void EnemyManagerUpdate(EnemyManager *mgr, float dt)
 
         // if too much down out of screen, deactivate enemy
         if (e->position.y > PLAY_AREA_HEIGHT + e->size.y ||
-            e->position.x < -e->size.x - 50 ||
-            e->position.x > SCREEN_WIDTH + 50)
+            e->position.x < -e->size.x - ENEMY_SIDE_EXTRA ||
+            e->position.x > SCREEN_WIDTH + ENEMY_SIDE_EXTRA)
         {
             e->active = 0;
         }
@@ -207,7 +189,7 @@ void EnemyManagerUpdate(EnemyManager *mgr, float dt)
         e->frameTimer += dt;
         if (e->frameTimer >= e->frameTime) {
             e->frameTimer = 0.0f;
-            e->currentFrame = (e->currentFrame + 1) % 3; // es: 3 frame
+            e->currentFrame = (e->currentFrame + 1) % ENEMY_FRAME_COUNT; // es: 3 frame
         }
 
         // shooting: cooldown upgrade
@@ -216,7 +198,7 @@ void EnemyManagerUpdate(EnemyManager *mgr, float dt)
         }
     }
 
-    // 2) Manage wave
+    // Manage wave
     mgr->spawnTimer -= dt;
     if (mgr->spawnTimer > 0.0f) {
         return;
@@ -236,7 +218,7 @@ void EnemyManagerUpdate(EnemyManager *mgr, float dt)
 
         int p = rand() % 3;  // 3 pattern (0,1 or 2)
         mgr->currentPattern = (EnemyPattern)p;
-         mgr->currentWaveType = (EnemyType)(rand() % ENEMY_TYPE_COUNT);  // random new type(texture for this wave)
+        mgr->currentWaveType = (EnemyType)(rand() % ENEMY_TYPE_COUNT);  // random new type(texture for this wave)
         // pause time before new wave
         mgr->spawnTimer = mgr->delayBetweenWaves;
     }
@@ -248,13 +230,13 @@ void EnemyManagerDraw(const EnemyManager *mgr)
         const Enemy *e = &mgr->enemies[i];
         if (!e->active) continue;
 
+        //Texture settings before the draw
         Texture2D sheet = gEnemySheet[e->type];
-        int frameCount = 3;
-
+        int frameCount = ENEMY_FRAME_COUNT;
         float frameW = (float)sheet.width / frameCount;
         float frameH = (float)sheet.height;
 
-        // Phase 1: here calculacte the rect posizion and size calculation on the play area that i need for draw in the fuction
+        // Phase 1: here calculate the rect posizion and size calculation on the play area that i need for draw in the fuction
         Rectangle src = {
             frameW * e->currentFrame, // 0, W, 2W
             0.0f,
@@ -274,15 +256,14 @@ void EnemyManagerDraw(const EnemyManager *mgr)
         // Calculate velocity angle
         // here we use fuction atan2f(y, x) return angle from x axis , in radiants
         float angleDeg = atan2f(e->velocity.y, e->velocity.x) * 180.0f / PI;
-
         // basically the sprite is drawn from down to up
-        angleDeg += -90.0f;   // o -90.0f this set the base rotation from up to donw
-
+        angleDeg += ENEMY_ROTATION_OFFSET;   // o -90.0f this set the base rotation from up to donw
         // origin at center of destination rectangle (for the rotation)
         Vector2 origin = {
             e->size.x / 2.0f,
             e->size.y / 2.0f
         };
+
         // Phase3 : Using the Draw fuction to Draw the player , with rotation
         DrawTexturePro(
             sheet,
