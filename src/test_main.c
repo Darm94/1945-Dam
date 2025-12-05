@@ -12,19 +12,17 @@
 #define WIN32_LEAN_AND_MEAN
 
 // =========================================================
-// INCLUSIONI DIPENDENTI DA RAYLIB (Devono arrivare prima di CLOVE_IMPLEMENTATION)
+// my headers (depends on raylib)
 // =========================================================
 #include "player.h"
 #include "config.h"
 #include "bullet.h"
 #include "enemy.h"
 
-// =========================================================
-// CLOVE IMPLEMENTATION 
-// =========================================================
 #define CLOVE_IMPLEMENTATION 
 #include "clove-unit.h" 
-
+//found on clove-unit this guard and i used here to creare a clove_TRUE function
+#define CLOVE_IS_TRUE(res)  do { __CLOVE_ASSERT_GUARD __clove_assert_bool(__CLOVE_ASSERT_EQ, true, res, _this); } while(0)
 #define CLOVE_SUITE_NAME GameTests
 
 
@@ -45,7 +43,7 @@ CLOVE_TEST(PlayerInit_DefaultValues) {
 
 
 // --------- PLAYER TESTS ---------
-/*
+
 CLOVE_TEST(PlayerInit_valuesPlayer2) {
     Player p;
     PlayerInit(&p);
@@ -55,10 +53,10 @@ CLOVE_TEST(PlayerInit_valuesPlayer2) {
     CLOVE_INT_EQ(65, (int)p.size.y);
 
     // dentro la play area (non testiamo valore esatto, solo il range)
-    CLOVE_TRUE(p.position.x >= 0);
-    CLOVE_TRUE(p.position.y >= 0);
-    CLOVE_TRUE(p.position.x + p.size.x <= SCREEN_WIDTH);
-    CLOVE_TRUE(p.position.y + p.size.y <= PLAY_AREA_HEIGHT);
+    CLOVE_IS_TRUE(p.position.x >= 0);
+    CLOVE_IS_TRUE(p.position.y >= 0);
+    CLOVE_IS_TRUE(p.position.x + p.size.x <= SCREEN_WIDTH);
+    CLOVE_IS_TRUE(p.position.y + p.size.y <= PLAY_AREA_HEIGHT);
 
     CLOVE_INT_EQ(1, p.isAlive);
     CLOVE_FLOAT_EQ(0.0f, p.invincibleTime);
@@ -67,7 +65,7 @@ CLOVE_TEST(PlayerInit_valuesPlayer2) {
     CLOVE_FLOAT_EQ(0.17f, p.shootInterval);
     CLOVE_FLOAT_EQ(0.0f, p.shootCooldown);
 }
-*/
+
 
 // simulate invicibility /stun
 CLOVE_TEST(PlayerUpdate_InvincibilityExpiresAndUnstun) {
@@ -159,7 +157,7 @@ CLOVE_TEST(BulletManager_Update_RemovesOutOfBounds) {
     while (b) { freeCount++; b = b->next; }
     CLOVE_INT_EQ(MAX_BULLETS, freeCount);
 }
-/*
+
 
 
 //ENEMY MANAGER TESTS
@@ -181,10 +179,10 @@ CLOVE_TEST(EnemyManager_Update_SpawnsEnemiesOverTime) {
     }
 
     // at least 1 shoul be present as active
-    CLOVE_TRUE(activeCount > 0);
+    CLOVE_IS_TRUE(activeCount > 0);
 }
-*/
-/*
+
+//TODO: to verify better
 CLOVE_TEST(EnemyManager_Init_DefaultWaveParams) {
     EnemyManager mgr;
     EnemyManagerInit(&mgr);
@@ -201,10 +199,10 @@ CLOVE_TEST(EnemyManager_Init_DefaultWaveParams) {
     CLOVE_FLOAT_EQ(2.0f, mgr.delayBetweenWaves);
 
     // at list one active
-    CLOVE_TRUE(mgr.currentWaveType >= 0);
-    CLOVE_TRUE(mgr.currentWaveType < ENEMY_TYPE_COUNT);
+    CLOVE_IS_TRUE(mgr.currentWaveType >= 0);
+    CLOVE_IS_TRUE(mgr.currentWaveType < ENEMY_TYPE_COUNT);
 }
-*/
+
 
 //MAIN CLOVE RUNNER
 CLOVE_RUNNER();
