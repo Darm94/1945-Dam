@@ -9,7 +9,7 @@ void PlayerInit(Player *player)
 {
     player->size = (Vector2){ 32, 32 };
     // Spawn at the PLAY AREA center (not entire window)
-
+    //TODO: to clean
     player->src = (Rectangle){ 4, 400, 65, 65 }; 
 
     player->size = (Vector2){ 65, 65 };  // dimension 1:1 of the frames from sprite sheet
@@ -120,7 +120,7 @@ void PlayerDraw(const Player *player)
         player->size.y
     };
 
-    // Phase 2: here calculate the frame to obtain from sprite sheet with width/3 (3 frames)
+    // Phase 2: here calculate the frame rectangle to obtain from sprite sheet with width/3 (3 frames)
     int frameCount = 3;
     float frameWidth  = (float)gPlayerSheet.width / frameCount;
     float frameHeight = (float)gPlayerSheet.height;

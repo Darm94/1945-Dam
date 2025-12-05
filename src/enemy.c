@@ -270,6 +270,7 @@ void EnemyManagerDraw(const EnemyManager *mgr)
             e->size.y
         };
 
+        // Phase 2.5: here calculate rotation angle and the rotation origin
         // Calculate velocity angle
         // here we use fuction atan2f(y, x) return angle from x axis , in radiants
         float angleDeg = atan2f(e->velocity.y, e->velocity.x) * 180.0f / PI;
@@ -277,7 +278,7 @@ void EnemyManagerDraw(const EnemyManager *mgr)
         // basically the sprite is drawn from down to up
         angleDeg += -90.0f;   // o -90.0f this set the base rotation from up to donw
 
-        // origine at center of destination rectangle (for the rotation)
+        // origin at center of destination rectangle (for the rotation)
         Vector2 origin = {
             e->size.x / 2.0f,
             e->size.y / 2.0f

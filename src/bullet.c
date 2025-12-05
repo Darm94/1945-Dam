@@ -125,22 +125,25 @@ void BulletManagerDraw(const BulletManager *mgr)
             tex = gEnemyBulletTex;
         }
 
+         // Phase 1: here calculacte the rect posizion and size calculation on the play area that i need for draw in the fuction
         Rectangle src = { 0, 0, (float)tex.width, (float)tex.height };
-
+        // Phase 2: here calculate the frame to obtain from sprite sheet with width/3 (3 frames)
         Rectangle dest = {
             b->position.x,
             b->position.y,
             b->size.x,
             b->size.y
         };
-
+        // Phase 2.5: here calculate rotation angle and the rotation origin
+        //TODO chek this part, need to test it
         // calculate actual bullet velocity vector rotation
         float angleDeg = atan2f(b->velocity.y, b->velocity.x) * 180.0f / PI + 90.0f;
 
-        //TODO chek this part
+        
         // origin from center of destination size
         Vector2 origin = { b->size.x / 2.0f, b->size.y / 2.0f };
 
+        // Phase3 : Using the Draw fuction to Draw the player , no offsets and 0 rotation
         DrawTexturePro(
             tex,
             src,
