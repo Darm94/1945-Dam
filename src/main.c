@@ -11,10 +11,14 @@ int main(void)
     TraceLog(LOG_INFO,"Bin directory: %s",app_dir);
     ChangeDirectory(app_dir);
 
-    // TODO (bonus UI): load window icon
-    // Image icon = LoadImage("resources/icon.png");
-    // SetWindowIcon(icon);
-    // UnloadImage(icon);
+    //Png loaded and released here instantly
+    Image icon = LoadImage("resources/icon.png");
+    if (icon.data != NULL) {
+        SetWindowIcon(icon);
+        UnloadImage(icon);  //now we can free
+    } else {
+        TraceLog(LOG_WARNING, "Failed to load window icon!");
+    }
 
     // AUDIO INIT (quando lo userai)
     // InitAudioDevice();

@@ -161,18 +161,33 @@ void GameDraw(const Game *game)
                  RAYWHITE);
             break;
         case SCREEN_MAIN_MENU:
-            // Sfondo semplice (puoi usare anche il mare se vuoi)
-            ClearBackground(DARKBLUE);
+            //Image on all screen
+            // GAme Over image (over all the window)
+            DrawTexturePro(
+                gMenuScreen,
+                (Rectangle){0, 0, gGameOverScreen.width, gGameOverScreen.height},
+                (Rectangle){
+                    0,
+                    0,
+                    (float)SCREEN_WIDTH,
+                    (float)SCREEN_HEIGHT
+                },
+                (Vector2){0,0},
+                0.0f,
+                WHITE
+            );
+            // easy monocolor background
+            //ClearBackground(DARKBLUE);
 
             DrawText("STRIKERS 1945 DAMIANO EDITION",
-                    SCREEN_WIDTH/2 - 260,
-                    SCREEN_HEIGHT/2 - 80,
+                    SCREEN_WIDTH/2 - 232,
+                    SCREEN_HEIGHT/2 -10,
                     28,
                     YELLOW);
 
             DrawText("PRESS ENTER TO START",
-                    SCREEN_WIDTH/2 - 170,
-                    SCREEN_HEIGHT/2 - 20,
+                    SCREEN_WIDTH/2 - 145,
+                    SCREEN_HEIGHT/2 + 180,
                     24,
                     RAYWHITE);
             break;

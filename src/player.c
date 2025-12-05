@@ -18,7 +18,7 @@ void PlayerInit(Player *player)
         PLAY_AREA_HEIGHT / 2.0f - player->size.y / 2.0f
     };
 
-    player->speed = 200.0f;
+    player->speed = 220.0f;
     player->isAlive = 1;
     player->invincibleTime = 0.0f;
 
@@ -26,7 +26,7 @@ void PlayerInit(Player *player)
     player->currentFrame = 0;
     player->frameTime    = 0.1f;
     player->frameTimer   = 0.0f;
-    player->shootInterval = 0.15f; 
+    player->shootInterval = 0.17f; 
     player->shootCooldown = 0.0f;
 
     // invincibility / stun

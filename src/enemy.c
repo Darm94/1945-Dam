@@ -135,7 +135,7 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
 
     e->position = (Vector2){ x, y };
     e->size     = (Vector2){ w, h };
-    e->speed    = 150.0f;
+    e->speed    = 170.0f;
     //TODO check
     // Normalize direction
     float len = sqrtf(vel.x*vel.x + vel.y*vel.y);
@@ -151,7 +151,7 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
     e->frameTimer   = 0.0f;
 
     //Shooting: base interval + random component
-    e->shootInterval = 2.0f + RandomFloat(0.0f, 1.5f);
+    e->shootInterval = 1.0f + RandomFloat(0.0f, 1.5f);
     e->shootCooldown = e->shootInterval * 0.5f;
 }
 
@@ -173,7 +173,7 @@ void EnemyManagerInit(EnemyManager *mgr)
         e->velocity = (Vector2){0, 1};
     }
 
-    mgr->enemiesPerWave      = 5;     // 5 planes per wave
+    mgr->enemiesPerWave      = 7;     // 5 planes per wave
     mgr->delayBetweenEnemies = 0.35f; // 0.35s between one enemy spawn and the next one
     mgr->delayBetweenWaves   = 2.0f;  // 2 secondi from a wave to the next one
     mgr->spawnedInCurrentWave = 0;

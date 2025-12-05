@@ -73,6 +73,7 @@ void ResourcesUnload(void)
     UnloadTexture(gPlayerSheet);
 
     UnloadMusicStream(gMusicBackground);
+    UnloadMusicStream(gMenuBackground);
     UnloadSound(gExplosionEnemy);
     UnloadSound(gExplosionPlayer);
     UnloadSound(gPlayerShootSound);
@@ -84,6 +85,7 @@ void ResourcesUnload(void)
     UnloadTexture(gPlayerBulletTex);
     UnloadTexture(gEnemyBulletTex);
     UnloadTexture(gGameOverScreen);
+    UnloadTexture(gMenuScreen);
 
     UnloadTexture(gIsland1);
     UnloadTexture(gIsland2);
