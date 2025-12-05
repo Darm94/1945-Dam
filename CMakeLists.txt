@@ -10,7 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${CMAKE_SOURCE_DIR}/bin)#(deafult dir
 
 
 # =====================================================
-# 1) Game CORE sources  (* .c except main.c and test.c)
+# 1 Game CORE sources  (* .c except main.c and test.c)
 file(GLOB GAME_ALL_SOURCES
     ${CMAKE_SOURCE_DIR}/src/*.c
 )
@@ -32,13 +32,14 @@ target_link_directories(game_core PRIVATE ${RAYLIB_LIB_DIR})
 
 #all raylib dependency source: gemini
 target_link_libraries(game_core PRIVATE
-    raylib
-    winmm
-    gdi32
-    opengl32
+    raylibdll#fix
+    #raylib
+    #winmm
+    #gdi32
+    #opengl32
 )
 # =====================================================
-# 2) Main executable: 1945_damiano
+# 2 Main executable: 1945_damiano
 
 add_executable(1945_damiano
     ${CMAKE_SOURCE_DIR}/src/main.c
@@ -67,7 +68,7 @@ add_custom_command(TARGET 1945_damiano POST_BUILD
 )
 
 # =====================================================
-# 3) Test executable: test_app
+# 3 Test executable: test_app
 
 add_executable(test_app
     ${CMAKE_SOURCE_DIR}/src/test_main.c
