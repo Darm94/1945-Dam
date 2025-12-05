@@ -18,8 +18,8 @@ static void Game_OnPlayerKilled(Game *game);
 void GameInit(Game *game)
 {
     game->score  = 0;
-    game->lives  = 3;       // UI: life count
-    game->energy = 100.0f;  // UI: energy bar
+    game->lives  = GAME_INITIAL_LIVES;       // UI: life count
+    game->energy = GAME_INITIAL_ENERGY;  // UI: energy bar
     game->waterScroll = 0.0f;//parte da 0 new
 
     PlayerInit(&game->player);
@@ -36,28 +36,25 @@ void GameUpdate(Game *game, float dt)
         case SCREEN_GAMEPLAY:
 
             UpdateMusicStream(gMusicBackground);
-            // ---  BACKGROUND SCROLL---
-            float scrollSpeed = 60.0f;  // pixel for seconds
+            // BACKGROUND SCROLL
+            float scrollSpeed = GAME_WATER_SCROLL_SPEED;  // pixel for seconds
             game->waterScroll -= scrollSpeed * dt;  //  change direction with  + or -
             float tileH = (float)gWater.height;
             if (game->waterScroll <= 0.0f)
                 game->waterScroll += tileH;   // loop between 0 e tileH
-                
-            // INPUT + PLAYER
+            //ISLANDS POSITIONS
+            IslandManagerUpdate(&game->islands, dt, scrollSpeed);     
+            // INPUT + PLAYER + ENEMY UPDATE
             PlayerUpdate(&game->player, dt);
             BulletManagerUpdate(&game->bullets, dt);
-
             EnemyManagerUpdate(&game->enemies, dt);
-
             ExplosionManagerUpdate(&game->explosions, dt);
-             // input shoot player
+            //SHOOTING HANDERS UPDATE
             Game_HandlePlayerShooting(game, dt); 
             Game_HandleEnemyShooting(game); 
 
-            // collision
+            //COLLISIONS
             Game_HandleCollisions(game);
-            IslandManagerUpdate(&game->islands, dt, scrollSpeed);
-
             break;
 
         case SCREEN_GAMEOVER:
@@ -148,16 +145,17 @@ void GameDraw(const Game *game)
                 WHITE
             );
             
-            DrawText("GAME OVER", SCREEN_WIDTH/2 - 121, SCREEN_HEIGHT/2 - 250, 40, RED);
+            DrawText("GAME OVER", SCREEN_WIDTH/2 - GAME_OVER_TITLE_OFFSET_X,
+                     SCREEN_HEIGHT/2 - GAME_OVER_TITLE_OFFSET_Y, GAME_OVER_TITLE_FONT_SIZE, RED);
             DrawText(TextFormat("SCORE: %d", game->score),
-             SCREEN_WIDTH/2 - 96,      
-             SCREEN_HEIGHT/2 - 200,     // under GAME OVER text
-             32,                        
+             SCREEN_WIDTH/2 - GAME_OVER_SCORE_OFFSET_X,      
+             SCREEN_HEIGHT/2 - GAME_OVER_SCORE_OFFSET_Y,     // under GAME OVER text
+             GAME_OVER_SCORE_FONT_SIZE,                        
              YELLOW);
             DrawText("PRESS ENTER TO RETURN TO MENU",
                  SCREEN_WIDTH/2 - 230,
-                 SCREEN_HEIGHT - 80,
-                 22,
+                 SCREEN_HEIGHT - GAME_OVER_PROMPT_OFFSET_Y,
+                 GAME_OVER_PROMPT_FONT_SIZE,
                  RAYWHITE);
             break;
         case SCREEN_MAIN_MENU:
@@ -180,15 +178,15 @@ void GameDraw(const Game *game)
             //ClearBackground(DARKBLUE);
 
             DrawText("STRIKERS 1945 DAMIANO EDITION",
-                    SCREEN_WIDTH/2 - 232,
-                    SCREEN_HEIGHT/2 -10,
-                    28,
+                    SCREEN_WIDTH/2 - MENU_TITLE_OFFSET_X,
+                    SCREEN_HEIGHT/2 -MENU_TITLE_OFFSET_Y,
+                    MENU_TITLE_FONT_SIZE,
                     YELLOW);
 
             DrawText("PRESS ENTER TO START",
-                    SCREEN_WIDTH/2 - 145,
-                    SCREEN_HEIGHT/2 + 180,
-                    24,
+                    SCREEN_WIDTH/2 - MENU_PROMPT_OFFSET_X,
+                    SCREEN_HEIGHT/2 + MENU_PROMPT_OFFSET_Y,
+                    MENU_PROMPT_FONT_SIZE,
                     RAYWHITE);
             break;
     }
@@ -239,7 +237,7 @@ static void Game_HandleEnemyShooting(Game *game)
         if (e->shootCooldown <= 0.0f) {
             // random shoot chance
             float chance = (float)rand() / RAND_MAX;
-            if (chance < 0.5f) {   // magic number for now : 50% shoot probability
+            if (chance < ENEMY_SHOOT_CHANCE) {   // magic number for now : 50% shoot probability
                 //bullet spawn position : enemy center & down part
                 Vector2 spawnPos = {
                     e->position.x + e->size.x / 2.0f,
@@ -247,12 +245,12 @@ static void Game_HandleEnemyShooting(Game *game)
                 };
                 // bullet direction depends on enemy rotation
                 Vector2 dir = e->velocity;
-
+                //Spawn Bullet
                 BulletManager_SpawnEnemy(&game->bullets, spawnPos, dir);
             }
 
             // cooldown reset , with random component
-            e->shootInterval = 1.0f + ((float)rand() / RAND_MAX) * 1.5f;
+            e->shootInterval = ENEMY_SHOOT_MIN_INTERVAL + ((float)rand() / RAND_MAX) * ENEMY_SHOOT_RANDOM_RANGE;
             e->shootCooldown = e->shootInterval;
         }
     }
@@ -299,11 +297,11 @@ static void Game_HandleCollisions(Game *game)
             }
 
             // Damage to player
-            game->energy -= 33.0f;
+            game->energy -= PLAYER_COLLISION_ENERGY_LOSS;
             if (game->energy < 0.0f) game->energy = 0.0f;
 
             // incincibility on but also stun (for the same time, decreased in update)
-            game->player.invincibleTime = 3.0f;
+            game->player.invincibleTime = PLAYER_INVINCIBLE_HIT_TIME;
             game->player.isStunned      = 1;
 
             // out of HP -> Explosion +  lifes manage
@@ -352,7 +350,7 @@ static void Game_HandleCollisions(Game *game)
                         e->size
                     );
                     e->active = 0;
-                    game->score += 10;
+                    game->score += GAME_SCORE_PER_ENEMY;
                     PlaySound(gExplosionEnemy);
 
                     // bullet us same explosion of enemy
@@ -397,7 +395,7 @@ static void Game_HandleCollisions(Game *game)
                     if (game->energy < 0.0f) game->energy = 0.0f;
 
                     //set  invincibile + stun for 3 seconds (redundancy for now)
-                    game->player.invincibleTime = 3.0f;
+                    game->player.invincibleTime = PLAYER_INVINCIBLE_HIT_TIME;
                     game->player.isStunned      = 1;
 
                     // out of hp -> explosion and life manage (redundancy for now)
@@ -462,16 +460,16 @@ static void Game_RespawnPlayer(Game *game)
     Player *p = &game->player;
     // restart position from center (more or less)
     p->position.x = (SCREEN_WIDTH  - p->size.x) / 2.0f;
-    p->position.y = (PLAY_AREA_HEIGHT - p->size.y) - 20.0f;  // little highter then half
+    p->position.y = (PLAY_AREA_HEIGHT - p->size.y) - PLAYER_RESPAWN_OFFSET_Y;  // little highter then half
 
     // reset all status
     p->isAlive        = 1;
     p->isStunned      = 0;
-    p->invincibleTime = 2.0f;//only when hitted 
+    p->invincibleTime = PLAYER_INVINCIBLE_RESPAWN_TIME;//only when hitted 
     p->shootCooldown  = 0.0f;
 
     // Full HP again
-    game->energy = 100.0f;
+    game->energy = GAME_INITIAL_ENERGY;
 }
 
 static void Game_OnPlayerKilled(Game *game)

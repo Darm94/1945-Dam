@@ -135,7 +135,7 @@
 
 // Damage / HP changes
 #define PLAYER_COLLISION_ENERGY_LOSS       33.0f   // Energy lost when colliding with an enemy
-#define PLAYER_INVINCIBLE_HIT_TIME         3.0f    // Invincibility duration after being hit
+#define PLAYER_INVINCIBLE_HIT_TIME         2.0f    // Invincibility duration after being hit
 #define PLAYER_INVINCIBLE_RESPAWN_TIME     2.0f    // Invincibility duration after respawn
 
 // Player respawn position

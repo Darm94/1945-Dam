@@ -98,12 +98,3 @@ void UI_Draw(const UI *ui, const Game *game)
                   12,
                   GREEN);
 }
-/*
-void UI_Unload(UI *ui)
-{
-    if (ui->hasTexture) {
-        //UnloadTexture(ui->hudRightTex);
-        ui->hasTexture = 0;
-        //UnloadTexture(ui->atlas);
-    }
-}*/

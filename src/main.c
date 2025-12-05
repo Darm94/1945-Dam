@@ -7,10 +7,12 @@ int main(void)
     // INIT WINDOW
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "1945 Demo - Damiano Schirru C");
     SetTargetFPS(60);
+    //BINARIES DIRECTORY
     const char* app_dir = GetApplicationDirectory();
     TraceLog(LOG_INFO,"Bin directory: %s",app_dir);
     ChangeDirectory(app_dir);
 
+    //ICON
     //Png loaded and released here instantly
     Image icon = LoadImage("resources/icon.png");
     if (icon.data != NULL) {
@@ -20,18 +22,18 @@ int main(void)
         TraceLog(LOG_WARNING, "Failed to load window icon!");
     }
 
-    // AUDIO INIT
-    // InitAudioDevice();
+    // RESOURCES INIT
     InitAudioDevice();
     ResourcesLoad();// resource.h
-    // Start only one Music song
-    PlayMusicStream(gMenuBackground);
+    PlayMusicStream(gMenuBackground); //start main menu song
     gMenuBackground.looping = true;   // loop the song
     
+    //GAME INIT
     Game game;
     game.currentScreen = SCREEN_MAIN_MENU;
     GameInit(&game);
     
+    //GAMELOOP
     while (!WindowShouldClose())
     {
         float dt = GetFrameTime();//dt means DeltaTime here and all over the project
@@ -41,11 +43,11 @@ int main(void)
         GameDraw(&game);
     }
 
+    //CLOSE GAME
     GameUnload(&game);
     ResourcesUnload();
     CloseAudioDevice();//raylib ask to close the audiodevice
-    CloseWindow();
-    
+    CloseWindow();   
     return 0;
 }
 
