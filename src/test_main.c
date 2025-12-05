@@ -20,13 +20,13 @@
 #include "enemy.h"
 
 // =========================================================
-// CLOVE IMPLEMENTATION (DEVE ARRIVARE ALLA FINE DELLE INCLUSIONI DI LIBRERIE)
+// CLOVE IMPLEMENTATION 
 // =========================================================
 #define CLOVE_IMPLEMENTATION 
-#include "clove-unit.h" // Qui viene incollato il codice di implementazione
+#include "clove-unit.h" 
 
 #define CLOVE_SUITE_NAME GameTests
-CLOVE_SUITE(GameTests);
+
 
 
 CLOVE_TEST(PlayerInit_DefaultValues) {
@@ -43,9 +43,9 @@ CLOVE_TEST(PlayerInit_DefaultValues) {
 // lo facciamo in modo indiretto.
 
 
-/*
-// --------- PLAYER TESTS ---------
 
+// --------- PLAYER TESTS ---------
+/*
 CLOVE_TEST(PlayerInit_valuesPlayer2) {
     Player p;
     PlayerInit(&p);
@@ -67,6 +67,7 @@ CLOVE_TEST(PlayerInit_valuesPlayer2) {
     CLOVE_FLOAT_EQ(0.17f, p.shootInterval);
     CLOVE_FLOAT_EQ(0.0f, p.shootCooldown);
 }
+*/
 
 // simulate invicibility /stun
 CLOVE_TEST(PlayerUpdate_InvincibilityExpiresAndUnstun) {
@@ -85,8 +86,7 @@ CLOVE_TEST(PlayerUpdate_InvincibilityExpiresAndUnstun) {
     CLOVE_FLOAT_EQ(0.0f, p.invincibleTime);
     CLOVE_INT_EQ(0, p.isStunned);
 }
-*/
-/*
+
 // BULLET MANAGER TESTS
 CLOVE_TEST(BulletManager_Init_AllInFreeList) {
     BulletManager mgr;
@@ -105,7 +105,7 @@ CLOVE_TEST(BulletManager_Init_AllInFreeList) {
 
     CLOVE_INT_EQ(MAX_BULLETS, count);
 }
-
+/*
 CLOVE_TEST(BulletManager_SpawnPlayer_DequeuesFromFreeList) {
     BulletManager mgr;
     BulletManagerInit(&mgr);
@@ -136,8 +136,7 @@ CLOVE_TEST(BulletManager_SpawnPlayer_DequeuesFromFreeList) {
     // direction Normalized (0,-1)
     CLOVE_FLOAT_EQ(0.0f, mgr.activeList->velocity.x);
     CLOVE_FLOAT_EQ(-1.0f, mgr.activeList->velocity.y);
-}
-
+}*/
 // Bullet out of screen (have to be removed)
 CLOVE_TEST(BulletManager_Update_RemovesOutOfBounds) {
     BulletManager mgr;
@@ -160,29 +159,10 @@ CLOVE_TEST(BulletManager_Update_RemovesOutOfBounds) {
     while (b) { freeCount++; b = b->next; }
     CLOVE_INT_EQ(MAX_BULLETS, freeCount);
 }
+/*
+
 
 //ENEMY MANAGER TESTS
-
-CLOVE_TEST(EnemyManager_Init_DefaultWaveParams) {
-    EnemyManager mgr;
-    EnemyManagerInit(&mgr);
-
-    // all not active
-    for (int i = 0; i < MAX_ENEMIES; i++) {
-        CLOVE_INT_EQ(0, mgr.enemies[i].active);
-        CLOVE_FLOAT_EQ(0.0f, mgr.enemies[i].velocity.x);
-        CLOVE_FLOAT_EQ(1.0f, mgr.enemies[i].velocity.y);
-    }
-
-    CLOVE_INT_EQ(7, mgr.enemiesPerWave);
-    CLOVE_FLOAT_EQ(0.35f, mgr.delayBetweenEnemies);
-    CLOVE_FLOAT_EQ(2.0f, mgr.delayBetweenWaves);
-
-    // at list one active
-    CLOVE_TRUE(mgr.currentWaveType >= 0);
-    CLOVE_TRUE(mgr.currentWaveType < ENEMY_TYPE_COUNT);
-}
-
 // Spawn time of the enemy test
 CLOVE_TEST(EnemyManager_Update_SpawnsEnemiesOverTime) {
     EnemyManager mgr;
@@ -202,6 +182,27 @@ CLOVE_TEST(EnemyManager_Update_SpawnsEnemiesOverTime) {
 
     // at least 1 shoul be present as active
     CLOVE_TRUE(activeCount > 0);
+}
+*/
+/*
+CLOVE_TEST(EnemyManager_Init_DefaultWaveParams) {
+    EnemyManager mgr;
+    EnemyManagerInit(&mgr);
+
+    // all not active
+    for (int i = 0; i < MAX_ENEMIES; i++) {
+        CLOVE_INT_EQ(0, mgr.enemies[i].active);
+        CLOVE_FLOAT_EQ(0.0f, mgr.enemies[i].velocity.x);
+        CLOVE_FLOAT_EQ(1.0f, mgr.enemies[i].velocity.y);
+    }
+
+    CLOVE_INT_EQ(7, mgr.enemiesPerWave);
+    CLOVE_FLOAT_EQ(0.35f, mgr.delayBetweenEnemies);
+    CLOVE_FLOAT_EQ(2.0f, mgr.delayBetweenWaves);
+
+    // at list one active
+    CLOVE_TRUE(mgr.currentWaveType >= 0);
+    CLOVE_TRUE(mgr.currentWaveType < ENEMY_TYPE_COUNT);
 }
 */
 
