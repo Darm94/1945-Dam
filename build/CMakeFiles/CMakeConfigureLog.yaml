@@ -102,7 +102,7 @@ events:
       The output was:
       0
       MSBuild version 17.12.12+1cce77968 for .NET Framework
-      Build started 05/12/2025 01:31:59.
+      Build started 05/12/2025 10:57:55.
       
       Project "C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\4.2.0\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -131,7 +131,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.73
+      Time Elapsed 00:00:00.53
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -952,8 +952,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-snknr8"
-      binary: "C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-snknr8"
+      source: "C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-t677sj"
+      binary: "C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-t677sj"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -962,39 +962,39 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-snknr8'
+        Change Dir: 'C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-t677sj'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_383c5.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_6f395.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         MSBuild version 17.12.12+1cce77968 for .NET Framework
-        Build started 05/12/2025 01:32:00.
+        Build started 05/12/2025 10:57:56.
         
-        Project "C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-snknr8\\cmTC_383c5.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-t677sj\\cmTC_6f395.vcxproj" on node 1 (default targets).
         PrepareForBuild:
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-snknr8\\Debug\\".
-          Creating directory "cmTC_383c5.dir\\Debug\\cmTC_383c5.tlog\\".
+          Creating directory "C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-t677sj\\Debug\\".
+          Creating directory "cmTC_6f395.dir\\Debug\\cmTC_6f395.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_383c5.dir\\Debug\\cmTC_383c5.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_383c5.dir\\Debug\\cmTC_383c5.tlog\\unsuccessfulbuild".
+          Creating "cmTC_6f395.dir\\Debug\\cmTC_6f395.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_6f395.dir\\Debug\\cmTC_6f395.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX86\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_383c5.dir\\Debug\\\\" /Fd"cmTC_383c5.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX86\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_6f395.dir\\Debug\\\\" /Fd"cmTC_6f395.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
           Microsoft (R) C/C++ Optimizing Compiler versione 19.42.34436 per x64
           Copyright (C) Microsoft Corporation. Tutti i diritti  sono riservati.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_383c5.dir\\Debug\\\\" /Fd"cmTC_383c5.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_6f395.dir\\Debug\\\\" /Fd"cmTC_6f395.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX86\\x64\\link.exe /OUT:"C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-snknr8\\Debug\\cmTC_383c5.exe" /INCREMENTAL /ILK:"cmTC_383c5.dir\\Debug\\cmTC_383c5.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-snknr8/Debug/cmTC_383c5.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-snknr8/Debug/cmTC_383c5.lib" /MACHINE:X64  /machine:x64 cmTC_383c5.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_383c5.vcxproj -> C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-snknr8\\Debug\\cmTC_383c5.exe
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX86\\x64\\link.exe /OUT:"C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-t677sj\\Debug\\cmTC_6f395.exe" /INCREMENTAL /ILK:"cmTC_6f395.dir\\Debug\\cmTC_6f395.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-t677sj/Debug/cmTC_6f395.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/CMakeScratch/TryCompile-t677sj/Debug/cmTC_6f395.lib" /MACHINE:X64  /machine:x64 cmTC_6f395.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_6f395.vcxproj -> C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-t677sj\\Debug\\cmTC_6f395.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_383c5.dir\\Debug\\cmTC_383c5.tlog\\unsuccessfulbuild".
-          Touching "cmTC_383c5.dir\\Debug\\cmTC_383c5.tlog\\cmTC_383c5.lastbuildstate".
-        Done Building Project "C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-snknr8\\cmTC_383c5.vcxproj" (default targets).
+          Deleting file "cmTC_6f395.dir\\Debug\\cmTC_6f395.tlog\\unsuccessfulbuild".
+          Touching "cmTC_6f395.dir\\Debug\\cmTC_6f395.tlog\\cmTC_6f395.lastbuildstate".
+        Done Building Project "C:\\Users\\Dami9\\OneDrive\\Documenti\\GitHub\\1945-Dam\\build\\CMakeFiles\\CMakeScratch\\TryCompile-t677sj\\cmTC_6f395.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.86
+        Time Elapsed 00:00:00.81
         
       exitCode: 0
   -

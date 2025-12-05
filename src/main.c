@@ -20,7 +20,7 @@ int main(void)
         TraceLog(LOG_WARNING, "Failed to load window icon!");
     }
 
-    // AUDIO INIT (quando lo userai)
+    // AUDIO INIT
     // InitAudioDevice();
     InitAudioDevice();
     ResourcesLoad();// resource.h
