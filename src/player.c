@@ -42,7 +42,7 @@ void PlayerUpdate(Player *player, float dt)
         return;
     }
 
-    // --- manage invincibility / stun ---
+    // manage invincibility / stun 
     if (player->invincibleTime > 0.0f) {
         player->invincibleTime -= dt;
         if (player->invincibleTime <= 0.0f) {
@@ -90,7 +90,7 @@ void PlayerUpdate(Player *player, float dt)
         player->frameTimer -= player->frameTime;
         player->currentFrame++;
 
-        if (player->currentFrame >= 3) // abbiamo 3 frame: 0,1,2
+        if (player->currentFrame >= 3) //  3 frame: 0,1,2
             player->currentFrame = 0;
     }
 
