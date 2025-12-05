@@ -6,7 +6,7 @@
 #include "bullet.h"
 #include <stdlib.h>
 
-//#include "collision.h"  
+//#include "collision.h"  //TODO
 
 static void Game_HandlePlayerShooting(Game *game, float dt);
 static void Game_HandleCollisions(Game *game);
@@ -36,12 +36,12 @@ void GameUpdate(Game *game, float dt)
         case SCREEN_GAMEPLAY:
 
             UpdateMusicStream(gMusicBackground);
-            // --- SCROLL DEL BACKGROUND ---
-            float scrollSpeed = 60.0f;  // pixel al secondo (regola a gusto)
-            game->waterScroll -= scrollSpeed * dt;  //  cambia + in -
+            // ---  BACKGROUND SCROLL---
+            float scrollSpeed = 60.0f;  // pixel for seconds
+            game->waterScroll -= scrollSpeed * dt;  //  change direction with  + or -
             float tileH = (float)gWater.height;
             if (game->waterScroll <= 0.0f)
-                game->waterScroll += tileH;   // loop tra 0 e tileH
+                game->waterScroll += tileH;   // loop between 0 e tileH
                 
             // INPUT + PLAYER
             PlayerUpdate(&game->player, dt);
@@ -50,11 +50,11 @@ void GameUpdate(Game *game, float dt)
             EnemyManagerUpdate(&game->enemies, dt);
 
             ExplosionManagerUpdate(&game->explosions, dt);
-             // 3) input sparo player
-            Game_HandlePlayerShooting(game, dt);   // lo definiamo fra un attimo
+             // input shoot player
+            Game_HandlePlayerShooting(game, dt); 
             Game_HandleEnemyShooting(game); 
 
-            // 4) collisioni
+            // collision
             Game_HandleCollisions(game);
             IslandManagerUpdate(&game->islands, dt, scrollSpeed);
 
@@ -64,7 +64,7 @@ void GameUpdate(Game *game, float dt)
             // press enter go to main menu
             if (IsKeyPressed(KEY_ENTER)) {
                 StopMusicStream(gMusicBackground);
-                // 2) reset e play new music
+                // reset e play new music
                 SeekMusicStream(gMenuBackground, 0.0f);//play from the start
                 PlayMusicStream(gMenuBackground);
                 gMenuBackground.looping = true;
@@ -93,7 +93,7 @@ void GameUpdate(Game *game, float dt)
 void GameDraw(const Game *game)
 {
     BeginDrawing();
-    ClearBackground(DARKGRAY); // lo sfondo "fuori" dall'area di gioco
+    ClearBackground(DARKGRAY); // out of play area 
 
     switch (game->currentScreen) {
         case SCREEN_GAMEPLAY:
@@ -109,7 +109,7 @@ void GameDraw(const Game *game)
             float offsetY = fmodf(game->waterScroll, tileH);
             if (offsetY < 0) offsetY += tileH;
 
-            // partiamo da -tileH per coprire eventuali buchi
+            // start from -tileH to cover all shortcomings
             for (float y = -offsetY; y < PLAY_AREA_HEIGHT; y += tileH)
             {
                 for (float x = 0; x < SCREEN_WIDTH; x += tileW)
@@ -202,6 +202,7 @@ void GameUnload(Game *game)
     //TODO:  put unload resources here?
 }
 
+//TODO: FUNCTION TO MOVE ON COLLISION.h ENEMY.h and PLAYER.h
 static void Game_HandlePlayerShooting(Game *game, float dt)
 {
     Player *p = &game->player;
@@ -238,13 +239,12 @@ static void Game_HandleEnemyShooting(Game *game)
         if (e->shootCooldown <= 0.0f) {
             // random shoot chance
             float chance = (float)rand() / RAND_MAX;
-            if (chance < 0.5f) {   // magic number for now : 50% di probabilità di sparare
+            if (chance < 0.5f) {   // magic number for now : 50% shoot probability
                 //bullet spawn position : enemy center & down part
                 Vector2 spawnPos = {
                     e->position.x + e->size.x / 2.0f,
                     e->position.y + e->size.y
                 };
-
                 // bullet direction depends on enemy rotation
                 Vector2 dir = e->velocity;
 
@@ -280,7 +280,7 @@ static void Game_HandleCollisions(Game *game)
             e->size.x,
             e->size.y
         };
-        //collision eplayer e enemy
+        //collision player and enemy
         if (CheckCollisionRecs(playerRect, enemyRect)) {
 
             //enemy exlode
@@ -298,7 +298,7 @@ static void Game_HandleCollisions(Game *game)
                 continue; 
             }
 
-            // Danno al player
+            // Damage to player
             game->energy -= 33.0f;
             if (game->energy < 0.0f) game->energy = 0.0f;
 
@@ -306,7 +306,7 @@ static void Game_HandleCollisions(Game *game)
             game->player.invincibleTime = 3.0f;
             game->player.isStunned      = 1;
 
-            // out of HP -> Explosion + gestione lifes manage
+            // out of HP -> Explosion +  lifes manage
             if (game->energy <= 0.0f) {
                 ExplosionManager_SpawnPlayer(
                     &game->explosions,
@@ -327,7 +327,7 @@ static void Game_HandleCollisions(Game *game)
         int bulletRemoved = 0;
 
         if (b->owner == BULLET_OWNER_PLAYER) {
-            // test collezione con tutti i nemici attivi
+            // test collection with all enemies active
             for (int i = 0; i < MAX_ENEMIES; i++) {
                 Enemy *e = &game->enemies.enemies[i];
                 if (!e->active) continue;
@@ -396,7 +396,7 @@ static void Game_HandleCollisions(Game *game)
                     game->energy -= b->damage;
                     if (game->energy < 0.0f) game->energy = 0.0f;
 
-                    //set  invincibile + stun for 3 secondi (redundancy for now)
+                    //set  invincibile + stun for 3 seconds (redundancy for now)
                     game->player.invincibleTime = 3.0f;
                     game->player.isStunned      = 1;
 
@@ -407,6 +407,7 @@ static void Game_HandleCollisions(Game *game)
                             game->player.position,
                             game->player.size
                         );
+                        PlaySound(gExplosionPlayer);
                         Game_OnPlayerKilled(game);   
                     }
                 }
@@ -424,13 +425,12 @@ static void Game_HandleCollisions(Game *game)
                 BulletManager_RemoveActive(&game->bullets, toRemove, prevB);
                 continue;
             }
-
         }
 
         prevB = b;
         b = b->next;
     }
-//TODO
+//TODO better iterative fun
     // --Player Bullet vs Enemy Bullet --
     // O(N^2) for now , but MAX_BULLETS is setted on 128 not too much
     for (Bullet *b1 = game->bullets.activeList; b1; b1 = b1->next) {

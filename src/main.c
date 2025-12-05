@@ -34,23 +34,18 @@ int main(void)
     
     while (!WindowShouldClose())
     {
-        float dt = GetFrameTime();
-
+        float dt = GetFrameTime();//dt means DeltaTime here and all over the project
         // UPDATE
         GameUpdate(&game, dt);
-
         // DRAW
         GameDraw(&game);
     }
 
     GameUnload(&game);
     ResourcesUnload();
-
-
-    CloseAudioDevice();//raylib ask to close the  audiodevice
+    CloseAudioDevice();//raylib ask to close the audiodevice
     CloseWindow();
     
-
     return 0;
 }
 

@@ -93,26 +93,26 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
     float h = 40.0f;
     float x = 0.0f;
     float y = 0.0f;
-    Vector2 vel = {0.0f, 1.0f}; // default: down
+    Vector2 vel = {0.0f, 1.0f}; // default can be leave like that: down
 
     switch (pattern) {
         case ENEMY_PATTERN_LEFT_DIAG_RIGHT:
             // start outsite from left
-            x = -w - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MIN + 30.0f);
+            x = -w - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MIN + ENEMY_SPAWN_OFFSET);
             // start a little outsite the upper part of the screen
             y = -h - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MAX);
             // going diagonal from left-up to right-down
-            vel.x = RandomFloat(0.4f, 0.7f);
-            vel.y = RandomFloat(0.7f, 1.0f);
+            vel.x = RandomFloat(ENEMY_LEFT_DIAG_VEL_X_MIN, ENEMY_LEFT_DIAG_VEL_X_MAX);
+            vel.y = RandomFloat(ENEMY_LEFT_DIAG_VEL_Y_MIN, ENEMY_LEFT_DIAG_VEL_Y_MAX);
             break;
 
         case ENEMY_PATTERN_RIGHT_DIAG_LEFT:
             // start outsite from right
-            x = SCREEN_WIDTH + RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MIN + 30.0f);
+            x = SCREEN_WIDTH + RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MIN + ENEMY_SPAWN_OFFSET);
             y = -h - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MAX);
             // going diagonal from right-up to left-down
-            vel.x = RandomFloat(-0.7f, -0.4f);
-            vel.y = RandomFloat(0.7f, 1.0f);
+            vel.x = RandomFloat(ENEMY_RIGHT_DIAG_VEL_X_MIN, ENEMY_RIGHT_DIAG_VEL_X_MAX);
+            vel.y = RandomFloat(ENEMY_RIGHT_DIAG_VEL_Y_MIN, ENEMY_RIGHT_DIAG_VEL_Y_MAX);
             break;
 
         case ENEMY_PATTERN_CENTER_DOWN:
@@ -120,16 +120,16 @@ static void EnemyManager_SpawnOneWithPattern(EnemyManager *mgr, EnemyPattern pat
             // more or les from up-center to down-center
             x = SCREEN_WIDTH / 2.0f + RandomFloat(-60.0f, 60.0f);
             y = -h - RandomFloat(ENEMY_SPAWN_OUT_MIN, ENEMY_SPAWN_OUT_MAX);
-            vel.x = RandomFloat(-0.2f, 0.2f);
-            vel.y = 1.0f;
+            vel.x = RandomFloat(ENEMY_CENTER_VEL_X_MIN, ENEMY_CENTER_VEL_X_MAX);
+            vel.y = ENEMY_CENTER_VEL_Y;
             break;
     }
 
     e->position = (Vector2){ x, y };
     e->size     = (Vector2){ w, h };
     e->speed    = ENEMY_PATTERN_SPEED;//same for all types and patterns
-    //TODO check
-    // Normalize direction
+    
+    // Normalize direction function adn velocity set
     float len = sqrtf(vel.x*vel.x + vel.y*vel.y);
     if (len > 0.0001f) {
         vel.x /= len;
@@ -161,9 +161,9 @@ void EnemyManagerInit(EnemyManager *mgr)
     mgr->delayBetweenEnemies = ENEMY_DELAY_BETWEEN_SPAWN; // 0.35s between one enemy spawn and the next one
     mgr->delayBetweenWaves   = ENEMY_DELAY_BETWEEN_WAVES;  // seconds from a wave to the next one
     mgr->spawnedInCurrentWave = 0;
-    mgr->currentPattern       = ENEMY_PATTERN_LEFT_DIAG_RIGHT;
+    mgr->currentPattern       = ENEMY_PATTERN_LEFT_DIAG_RIGHT; //Initial pattern
     mgr->spawnTimer           = ENEMY_FIRST_SPAWN_DELAY;   // first wave init : after one second
-    mgr->currentWaveType = (EnemyType)(rand() % ENEMY_TYPE_COUNT); // 👈 tipo iniziale
+    mgr->currentWaveType = (EnemyType)(rand() % ENEMY_TYPE_COUNT); // Initial Type
 }
 
 void EnemyManagerUpdate(EnemyManager *mgr, float dt)

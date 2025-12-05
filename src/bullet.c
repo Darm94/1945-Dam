@@ -1,8 +1,8 @@
 #include "bullet.h"
 #include "resources.h"
-#include <math.h>    // per sqrtf, atan2f
+#include <math.h>    // need it for sqrtf and atan2f
 
-// ===============
+// =======================================================================
 // Private API
 
 
@@ -51,7 +51,7 @@ static Vector2 NormalizeSafe(Vector2 v)
     return v;
 }
 
-// ===============
+// =======================================================================
 // Public API
 
 
@@ -98,8 +98,7 @@ void BulletManagerUpdate(BulletManager *mgr, float dt)
             kill = 1;
         }
 
-        // TODO: bullet max lifetime?
-
+        // TODO: bullet max lifetime(?)
         if (kill) {
             Bullet *toRemove = b;
             b = b->next;
@@ -137,9 +136,8 @@ void BulletManagerDraw(const BulletManager *mgr)
         // Phase 2.5: here calculate rotation angle and the rotation origin
         //TODO chek this part, need to test it
         // calculate actual bullet velocity vector rotation
-        float angleDeg = atan2f(b->velocity.y, b->velocity.x) * 180.0f / PI + 90.0f;
-
-        
+        float angleDeg = atan2f(b->velocity.y, b->velocity.x) * 180.0f / PI +  BULLET_ROTATION_OFFSET;
+   
         // origin from center of destination size
         Vector2 origin = { b->size.x / 2.0f, b->size.y / 2.0f };
 
@@ -157,7 +155,6 @@ void BulletManagerDraw(const BulletManager *mgr)
             angleDeg,
             WHITE
         );
-
         b = b->next;
     }
 }
@@ -174,16 +171,16 @@ void BulletManager_SpawnPlayer(BulletManager *mgr, Vector2 pos, Vector2 dir)
 
     b->position = pos;
     b->velocity = dir;
-    b->speed    = 400.0f;   // basic bullet speed
-    b->damage   = 34.0f;    // player bullet damage
+    b->speed    = PLAYER_BULLET_SPEED;   // basic bullet speed
+    b->damage   = PLAYER_BULLET_DAMAGE;    // player bullet damage
 
     // bullet scale
-    float scale = 1.0f;
+    float scale = PLAYER_BULLET_SCALE;
     b->size = (Vector2){
         gPlayerBulletTex.width  * scale,
         gPlayerBulletTex.height * scale
     };
-    //TODO CHECK
+    //TODO: CHECK
     // center bullet based of precedent position
     b->position.x -= b->size.x / 2.0f;
     BulletManager_AddActive(mgr, b);
@@ -201,10 +198,10 @@ void BulletManager_SpawnEnemy(BulletManager *mgr, Vector2 pos, Vector2 dir)
 
     b->position = pos;
     b->velocity = dir;
-    b->speed    = 250.0f;   // enemy bullet  basic speed
-    b->damage   = 25.0f;    // bullet damage to player
+    b->speed    = ENEMY_BULLET_SPEED;   // enemy bullet  basic speed
+    b->damage   = ENEMY_BULLET_DAMAGE;    // bullet damage to player
 
-    float scale = 0.8f;     // enemy bullet scale
+    float scale = ENEMY_BULLET_SCALE;     // enemy bullet scale
     b->size = (Vector2){
         gEnemyBulletTex.width  * scale,
         gEnemyBulletTex.height * scale

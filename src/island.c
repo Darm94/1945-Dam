@@ -20,7 +20,7 @@ void IslandManagerInit(IslandManager *mgr)
     mgr->spawnTimer   = RandomFloat(mgr->minSpawnTime, mgr->maxSpawnTime);
 }
 
-// controlla se una nuova isola è troppo vicina alle altre
+// Check if new island is too much near the other
 static int IslandManager_CanSpawnHere(IslandManager *mgr, float x, float y, float minDist)
 {
     for (int i = 0; i < MAX_ISLANDS; i++) {
@@ -38,26 +38,26 @@ static int IslandManager_CanSpawnHere(IslandManager *mgr, float x, float y, floa
 
 void IslandManagerUpdate(IslandManager *mgr, float dt, float scrollSpeed)
 {
-    // movimento isole (stessa velocità del mare: verso l'alto o verso il basso in base al tuo segno)
+    // movement of islands (same speed as the sea: up or down depending on your sign)
     for (int i = 0; i < MAX_ISLANDS; i++) {
         Island *isl = &mgr->islands[i];
         if (!isl->active) continue;
 
-        isl->position.y += scrollSpeed * dt;   // 👈 ORA vanno GIÙ
+        isl->position.y += scrollSpeed * dt;  //island go down
 
-        // se esce dal fondo dell'area di gioco, disattiva
+        // if it goes out of the bottom of the play area, deactivate
         if (isl->position.y > PLAY_AREA_HEIGHT) {
             isl->active = 0;
         }
     }
-    // gestione spawn
+    // spawn manage
     mgr->spawnTimer -= dt;
     if (mgr->spawnTimer > 0.0f) return;
 
-    // reset timer per il prossimo spawn
+    // reset timer for the next spawn
     mgr->spawnTimer = RandomFloat(mgr->minSpawnTime, mgr->maxSpawnTime);
 
-    // trova uno slot libero
+    // find a free slot
     Island *slot = NULL;
     for (int i = 0; i < MAX_ISLANDS; i++) {
         if (!mgr->islands[i].active) {
@@ -67,7 +67,7 @@ void IslandManagerUpdate(IslandManager *mgr, float dt, float scrollSpeed)
     }
     if (!slot) return; // tutte occupate
 
-    // scegli una delle 3 texture a caso
+    // choose rajdomly one of the island textures
     Texture2D *texArr[3] = { &gIsland1, &gIsland2, &gIsland3 };
     int r = rand() % 3;
     Texture2D *chosen = texArr[r];
@@ -75,15 +75,15 @@ void IslandManagerUpdate(IslandManager *mgr, float dt, float scrollSpeed)
     float iw = (float)chosen->width;
     float ih = (float)chosen->height;
 
-    // random X orizzontale, ma tenendo l'isola tutta dentro lo schermo
+    // random X horiz, kkeping all the island inside the screen
     float x = RandomFloat(0.0f, (float)SCREEN_WIDTH - iw);
 
-    // Y sopra lo schermo (entra dall'alto)
+    // Y from upper of the screen
 float y = -ih - RandomFloat(10.0f, 60.0f);
 
-    // controlla distanza minima (es. 120 pixel)
+    // check minimum distance(es. 120 pixel)
     if (!IslandManager_CanSpawnHere(mgr, x + iw/2.0f, y + ih/2.0f, 280.0f)) {
-        return; // troppa vicinanza, saltiamo questo spawn
+        return; // too near ,dont spawn!
     }
 
     slot->active   = 1;

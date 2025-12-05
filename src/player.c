@@ -10,23 +10,23 @@ void PlayerInit(Player *player)
     player->size = (Vector2){ 32, 32 };
     // Spawn at the PLAY AREA center (not entire window)
     //TODO: to clean
-    player->src = (Rectangle){ 4, 400, 65, 65 }; 
+    player->src = (Rectangle){ PLAYER_SRC_X, PLAYER_SRC_Y, PLAYER_SRC_WIDTH, PLAYER_SRC_HEIGHT }; 
 
-    player->size = (Vector2){ 65, 65 };  // dimension 1:1 of the frames from sprite sheet
+    player->size = (Vector2){ PLAYER_WIDTH, PLAYER_HEIGHT };  // dimension 1:1 of the frames from sprite sheet
     player->position = (Vector2){
         SCREEN_WIDTH / 2.0f - player->size.x / 2.0f,
         PLAY_AREA_HEIGHT / 2.0f - player->size.y / 2.0f
     };
 
-    player->speed = 220.0f;
+    player->speed = PLAYER_SPEED;
     player->isAlive = 1;
     player->invincibleTime = 0.0f;
 
     // Animation: init start values : 3 frames, one every 0.1 seconds 
     player->currentFrame = 0;
-    player->frameTime    = 0.1f;
+    player->frameTime    = PLAYER_FRAME_TIME;
     player->frameTimer   = 0.0f;
-    player->shootInterval = 0.17f; 
+    player->shootInterval = PLAYER_SHOOT_INTERVAL; 
     player->shootCooldown = 0.0f;
 
     // invincibility / stun
@@ -90,12 +90,12 @@ void PlayerUpdate(Player *player, float dt)
         player->frameTimer -= player->frameTime;
         player->currentFrame++;
 
-        if (player->currentFrame >= 3) //  3 frame: 0,1,2
+        if (player->currentFrame >= PLAYER_FRAME_COUNT) //  3 frame: 0,1,2
             player->currentFrame = 0;
     }
 
-    // TODO: Shooting part here (?)
-    //TODO: Advanced position animation?
+    //TODO: Move Shooting part here
+    //TODO: Advanced position animation(?)
 }
 
 void PlayerDraw(const Player *player)
@@ -106,7 +106,7 @@ void PlayerDraw(const Player *player)
     if (player->invincibleTime > 0.0f) {
         // blink method found on WEB: on/off every ~0.1s
         float t = player->invincibleTime;
-        if (fmodf(t, 0.2f) > 0.1f) {
+        if (fmodf(t, PLAYER_INVINCIBLE_BLINK_PERIOD) > PLAYER_INVINCIBLE_BLINK_ON) {
             // in this interval dont drow player
             return;
         }
@@ -121,7 +121,7 @@ void PlayerDraw(const Player *player)
     };
 
     // Phase 2: here calculate the frame rectangle to obtain from sprite sheet with width/3 (3 frames)
-    int frameCount = 3;
+    int frameCount = PLAYER_FRAME_COUNT;
     float frameWidth  = (float)gPlayerSheet.width / frameCount;
     float frameHeight = (float)gPlayerSheet.height;
 
