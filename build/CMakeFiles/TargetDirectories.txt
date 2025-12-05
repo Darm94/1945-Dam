@@ -1,5 +1,0 @@
-C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/game_core.dir
-C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/1945_damiano.dir
-C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/test_app.dir
-C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/Dami9/OneDrive/Documenti/GitHub/1945-Dam/build/CMakeFiles/ZERO_CHECK.dir
