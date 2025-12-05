@@ -41,8 +41,8 @@ CLOVE_TEST(PlayerInit_DefaultValues) {
 // lo facciamo in modo indiretto.
 
 
-
-// --------- PLAYER TESTS ---------
+// =========================================================
+//PLAYER TESTS
 
 CLOVE_TEST(PlayerInit_valuesPlayer2) {
     Player p;
@@ -85,7 +85,10 @@ CLOVE_TEST(PlayerUpdate_InvincibilityExpiresAndUnstun) {
     CLOVE_INT_EQ(0, p.isStunned);
 }
 
+// =========================================================
 // BULLET MANAGER TESTS
+
+//Al bullets are free
 CLOVE_TEST(BulletManager_Init_AllInFreeList) {
     BulletManager mgr;
     BulletManagerInit(&mgr);
@@ -159,8 +162,9 @@ CLOVE_TEST(BulletManager_Update_RemovesOutOfBounds) {
 }
 
 
-
+// =========================================================
 //ENEMY MANAGER TESTS
+
 // Spawn time of the enemy test
 CLOVE_TEST(EnemyManager_Update_SpawnsEnemiesOverTime) {
     EnemyManager mgr;
