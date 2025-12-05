@@ -30,7 +30,7 @@ typedef struct Enemy {
     Vector2 size;
     float speed;
 
-    // Animazion (3 frames horiz.)
+    // Animation (3 frames horiz.)
     int   currentFrame;   // 0,1 or 2
     float frameTime;      // time between frames (es. 0.1)
     float frameTimer;     // frame timer
@@ -42,6 +42,7 @@ typedef struct Enemy {
 } Enemy;
 
 typedef struct EnemyManager {
+    //TO Do: after this try , convert this to List as done in Bullet Manager
     Enemy enemies[MAX_ENEMIES];
 
     float spawnTimer;
