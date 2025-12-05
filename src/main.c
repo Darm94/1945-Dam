@@ -25,8 +25,9 @@ int main(void)
     gMenuBackground.looping = true;   // loop the song
     
     Game game;
+    game.currentScreen = SCREEN_MAIN_MENU;
     GameInit(&game);
-
+    
     while (!WindowShouldClose())
     {
         float dt = GetFrameTime();

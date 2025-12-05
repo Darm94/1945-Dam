@@ -17,7 +17,6 @@ static void Game_OnPlayerKilled(Game *game);
 //First Game Function called at start
 void GameInit(Game *game)
 {
-    game->currentScreen = SCREEN_MAIN_MENU;
     game->score  = 0;
     game->lives  = 3;       // UI: life count
     game->energy = 100.0f;  // UI: energy bar
@@ -64,16 +63,26 @@ void GameUpdate(Game *game, float dt)
         case SCREEN_GAMEOVER:
             // press enter go to main menu
             if (IsKeyPressed(KEY_ENTER)) {
+                StopMusicStream(gMusicBackground);
+                // 2) reset e play new music
+                SeekMusicStream(gMenuBackground, 0.0f);//play from the start
+                PlayMusicStream(gMenuBackground);
+                gMenuBackground.looping = true;
                 GameInit(game); // reset all values
                 game->currentScreen = SCREEN_MAIN_MENU;
             }
             break;
         case SCREEN_MAIN_MENU:
-            // Custom main menu music(?)
+            // Custom main menu music
             UpdateMusicStream(gMenuBackground);
-
-            // Enter for a new game
+            // Enter for a new game 
             if (IsKeyPressed(KEY_ENTER)) {
+                StopMusicStream(gMenuBackground);
+                //TODO: to unify this music process in one fuction
+                //reset e play new music (redundacy here)
+                SeekMusicStream(gMusicBackground, 0.0f);
+                PlayMusicStream(gMusicBackground);
+                gMusicBackground.looping = true;
                 GameInit(game); // reset all values
                 game->currentScreen = SCREEN_GAMEPLAY;
             }
